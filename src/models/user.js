@@ -39,7 +39,12 @@ const UserSchema = new mongoose.Schema({
   about: {
     type: String,
     default: "contains some info about you !"
-  }
+  },
+
+
+  // for password reset
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 
 });
 

@@ -20,8 +20,8 @@
    post /request/review/rejected/:requestid
 
 ## userRouter
+- get /user/received-requests
 - get /user/connections
-- get /user/requests
 - get /user/feed - gets you the profiles of other users
 
 

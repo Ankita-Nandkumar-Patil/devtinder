@@ -12,13 +12,22 @@ authRouter.post("/signup", async (req, res) => {
     validateSignupData(req);
 
     // encrypt the password
-    const { firstName, lastName, emailID,password } = req.body;
+    const { firstName, lastName, emailID,password, age, city, gender, photoUrl, about, skills } = req.body;
     const passwordHash = await bcrypt.hash(password, 10) //(password, saltRounds)
 
     console.log(passwordHash)
     // creating new instance of user model
     const user = new User({
-      firstName, lastName, emailID, password : passwordHash
+      firstName,
+      lastName,
+      emailID,
+      password: passwordHash,
+      age,
+      city,
+      gender,
+      photoUrl,
+      about,
+      skills
     });
     await user.save();
     res.send("user saved successfully")
@@ -43,10 +52,9 @@ authRouter.post("/login", async (req, res) => {
         // Create JWT token
         const token = await user.getJWT();
         //(secret to store in token, secret key which only the server knows)
-
         // add token to COOKIE
         res.cookie("token", token)
-        res.send("Login successfully!")
+        res.send(user)
       } else {
         throw new Error("Incorrect password, please try again")
       }
@@ -59,7 +67,7 @@ authRouter.post("/login", async (req, res) => {
 
 authRouter.post("/logout", async (req, res) => {
   res.cookie("token", null, {   //we are setting cookie to null and expiring it at the current date.now()
-    expiresIn: new Date(Date.now())
+    expires: new Date(Date.now())
   })
   res.send("successfully logged out! ")
 })

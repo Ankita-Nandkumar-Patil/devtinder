@@ -14,33 +14,42 @@ const UserSchema = new mongoose.Schema({
   lastName: {
     type: String,
   },
+  emailID: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   age: {
-    type: String
+    type: Number,
+    min: 18,
+    max: 100
   },
   city: {
     type: String,
   },
   gender: {
     type: String,
-  },
-  emailID: {
-    type: String,
-    required: true, 
-    unique: true,
-    trim: true,
+    enum: {
+      values: ["male", "Male", "female", "Female", "others", "Others"],
+      message: `{VALUE} is an invalid status`,
+    },
   },
   skills: {
-    type: [String]
+    type: [String],
   },
   about: {
     type: String,
-    default: "contains some info about you !"
-  }
-
+    default: "contains some info about you !",
+  },
+  photoUrl: {
+    type: String,
+    default: "https://www.svgrepo.com/show/335455/profile-default.svg",
+  },
 });
 
 

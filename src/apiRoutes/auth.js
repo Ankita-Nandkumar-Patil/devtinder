@@ -30,7 +30,7 @@ authRouter.post("/signup", async (req, res) => {
       skills
     });
     await user.save();
-    res.send("user saved successfully")
+    res.json("user saved successfully")
   }
   catch (error) {
     res.status(400).send("Error: " + error.message)

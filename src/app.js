@@ -17,12 +17,13 @@ app.use(cookieParser());
 const authRouter = require("./apiRoutes/auth")
 const profileRouter = require("./apiRoutes/profile");
 const userRouter = require("./apiRoutes/user")
-
+const requestRouter = require("./apiRoutes/request")
 
 // let the app use our apis
 app.use("/", authRouter)
 app.use("/", profileRouter)
 app.use("/", userRouter)
+app.use("/", requestRouter)
 
 
 connectDB()

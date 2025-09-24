@@ -5,25 +5,25 @@ const User = require("../models/user");
 const userAuth = async (req, res, next) => {
   try {
     const { token } = req.cookies;
+
     if (!token) {
-      res.status(401).send("Please login !")
+      return res.status(401).send("Please login !");
     }
 
-    const decodedObj = await jwt.verify(token, process.env.JWT_SECRETE);
+    const decodedObj = jwt.verify(token, process.env.JWT_SECRETE); // no need for await
     const { _id } = decodedObj;
 
     const user = await User.findById(_id);
     if (!user) {
-      throw new Error("User not found")
+      return res.status(401).send("User not found");
     }
 
-    // attaching user to req body so we can access it in other api calls
+    // attach user to req
     req.user = user;
-    next()
+    return next();
   } catch (error) {
-    res.status(400).send("Error" + error.message);
+    return res.status(400).send("Error: " + error.message);
   }
 };
 
-
-module.exports = { userAuth }
+module.exports = { userAuth };

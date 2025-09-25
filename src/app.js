@@ -6,10 +6,13 @@ const connectDB = require("./config/database");
 const app = express();
 const cors = require("cors")
 
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}))  //middleware to tackle CORS errors
+app.use(
+  cors({
+    origin: ["http://16.176.6.250:3000", "http://localhost:5173"],
+    credentials: true,
+  })
+);  //middleware to tackle CORS errors
+// app.use(cors({ origin: "*", credentials: true }));
 app.use(express.json())  //middleware to fetch dynamic data
 app.use(cookieParser());
 

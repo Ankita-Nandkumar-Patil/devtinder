@@ -1,40 +1,41 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
+console.log("Mongo URI:", process.env.DB_CONNECTION_STRING);
 const express = require("express");
-const cookieParser = require("cookie-parser")
-const bcrypt = require("bcrypt")
+const cookieParser = require("cookie-parser");
+const bcrypt = require("bcrypt");
 const connectDB = require("./config/database");
 const app = express();
-const cors = require("cors")
+const cors = require("cors");
 
 app.use(
   cors({
     origin: ["http://16.176.6.250:3000", "http://localhost:5173"],
     credentials: true,
   })
-);  //middleware to tackle CORS errors
+); //middleware to tackle CORS errors
 // app.use(cors({ origin: "*", credentials: true }));
-app.use(express.json())  //middleware to fetch dynamic data
+app.use(express.json()); //middleware to fetch dynamic data
 app.use(cookieParser());
 
 // importing the apis from routes
-const authRouter = require("./apiRoutes/auth")
+const authRouter = require("./apiRoutes/auth");
 const profileRouter = require("./apiRoutes/profile");
-const userRouter = require("./apiRoutes/user")
-const requestRouter = require("./apiRoutes/request")
+const userRouter = require("./apiRoutes/user");
+const requestRouter = require("./apiRoutes/request");
 
 // let the app use our apis
-app.use("/", authRouter)
-app.use("/", profileRouter)
-app.use("/", userRouter)
-app.use("/", requestRouter)
-
+app.use("/", authRouter);
+app.use("/", profileRouter);
+app.use("/", userRouter);
+app.use("/", requestRouter);
 
 connectDB()
   .then(() => {
     console.log("DB connection established successfully");
-    app.listen(3000, () => {
-      console.log("app listening on port 3000");
-    });
+    app.listen(3000, "0.0.0.0", () => {
+     console.log("app listening on port 3000");
+   });
   })
   .catch((err) => {
     console.error("error connecting to DB : ", err);
